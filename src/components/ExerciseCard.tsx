@@ -10,7 +10,6 @@ import {ExerciseDiagram} from './ExerciseDiagram';
 interface ExerciseCardProps {
   exercise: PrescribedExercise;
   completed: boolean;
-  hasNote?: boolean;
   onToggleComplete: () => void;
   onOpenGuide: () => void;
 }
@@ -18,7 +17,6 @@ interface ExerciseCardProps {
 export const ExerciseCard: React.FC<ExerciseCardProps> = ({
   exercise,
   completed,
-  hasNote = false,
   onToggleComplete,
   onOpenGuide,
 }) => {
@@ -77,12 +75,6 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
                   >
                     {weight.label}
                   </span>
-                </>
-              )}
-              {hasNote && (
-                <>
-                  <span aria-hidden="true">·</span>
-                  <span className="text-[var(--primary)]">Note saved</span>
                 </>
               )}
             </div>

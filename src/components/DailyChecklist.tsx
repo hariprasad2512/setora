@@ -11,9 +11,7 @@ import {
   formatCategoryLabel,
   formatReadableDate,
   getTodayIsoDate,
-  slugify,
 } from '../utils/workoutFormatters';
-import {exerciseNotesStorage} from '../services/storage';
 import {CardioChecklistItem} from './CardioChecklistItem';
 import {CompletionProgress} from './CompletionProgress';
 import {ExerciseCard} from './ExerciseCard';
@@ -32,7 +30,6 @@ interface DailyChecklistProps {
   onToggleExercise: (exerciseId: string) => void;
   onOpenGuide: (exercise: PrescribedExercise) => void;
   onSelectWeekday?: (day: WeekdayName) => void;
-  noteVersion: number;
 }
 
 export const DailyChecklist: React.FC<DailyChecklistProps> = ({
@@ -49,13 +46,8 @@ export const DailyChecklist: React.FC<DailyChecklistProps> = ({
   onToggleExercise,
   onOpenGuide,
   onSelectWeekday,
-  noteVersion,
 }) => {
   const todayIso = getTodayIsoDate();
-  const savedNotesMap = React.useMemo(() => {
-    void noteVersion;
-    return exerciseNotesStorage.getAll();
-  }, [noteVersion]);
 
   const completedIds = new Set(completionRecord?.completed_exercise_ids ?? []);
   const cardioCompleted = completionRecord?.cardio_completed ?? false;
@@ -234,24 +226,15 @@ export const DailyChecklist: React.FC<DailyChecklistProps> = ({
             </div>
 
             <div className="space-y-2.5">
-              {workoutDay.exercises.map((exercise) => {
-                const noteEntry = savedNotesMap[slugify(exercise.name)];
-                const hasNote = Boolean(
-                  noteEntry &&
-                    (noteEntry.startingPosition.trim() ||
-                      noteEntry.personalNotes.trim())
-                );
-                return (
-                  <ExerciseCard
-                    key={exercise.id}
-                    exercise={exercise}
-                    completed={completedIds.has(exercise.id)}
-                    hasNote={hasNote}
-                    onToggleComplete={() => onToggleExercise(exercise.id)}
-                    onOpenGuide={() => onOpenGuide(exercise)}
-                  />
-                );
-              })}
+              {workoutDay.exercises.map((exercise) => (
+                <ExerciseCard
+                  key={exercise.id}
+                  exercise={exercise}
+                  completed={completedIds.has(exercise.id)}
+                  onToggleComplete={() => onToggleExercise(exercise.id)}
+                  onOpenGuide={() => onOpenGuide(exercise)}
+                />
+              ))}
             </div>
           </div>
         </>

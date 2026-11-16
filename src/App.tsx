@@ -54,7 +54,6 @@ function SetoraAppContent() {
   const [guideExercise, setGuideExercise] = useState<PrescribedExercise | null>(
     null
   );
-  const [noteVersion, setNoteVersion] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -301,7 +300,6 @@ function SetoraAppContent() {
             onToggleExercise={handleToggleExercise}
             onOpenGuide={(ex) => setGuideExercise(ex)}
             onSelectWeekday={handleSelectDay}
-            noteVersion={noteVersion}
           />
         </div>
       )}
@@ -330,7 +328,6 @@ function SetoraAppContent() {
             onToggleCardio={handleToggleCardio}
             onToggleExercise={handleToggleExercise}
             onOpenGuide={(ex) => setGuideExercise(ex)}
-            noteVersion={noteVersion}
           />
         </div>
       )}
@@ -352,7 +349,6 @@ function SetoraAppContent() {
       <ExerciseGuide
         exercise={guideExercise}
         onClose={() => setGuideExercise(null)}
-        onNoteSaved={() => setNoteVersion((v) => v + 1)}
       />
     </AppLayout>
   );

@@ -169,4 +169,20 @@ export const exerciseNotesStorage = {
     safeWriteJson(EXERCISE_NOTES_KEY, all);
     return entry;
   },
+
+  saveVideoUrl(exerciseName: string, customVideoUrl: string): ExercisePersonalNote {
+    const key = slugify(exerciseName);
+    const all = this.getAll();
+    const existing = all[key];
+    const entry: ExercisePersonalNote = {
+      exerciseKey: key,
+      startingPosition: existing?.startingPosition ?? '',
+      personalNotes: existing?.personalNotes ?? '',
+      customVideoUrl: customVideoUrl.trim(),
+      updatedAt: new Date().toISOString(),
+    };
+    all[key] = entry;
+    safeWriteJson(EXERCISE_NOTES_KEY, all);
+    return entry;
+  },
 };

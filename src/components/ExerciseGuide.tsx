@@ -1,34 +1,31 @@
-import React, {useEffect, useState} from 'react';
-import {Check, X} from 'lucide-react';
+import React, {useEffect, useMemo, useState} from 'react';
+import {ExternalLink, Film, PlayCircle, X} from 'lucide-react';
 import type {PrescribedExercise} from '../types/workout';
 import {
   formatExerciseVolume,
   formatPrescribedWeight,
 } from '../utils/workoutFormatters';
+import {parseCustomVideoUrl} from '../utils/videoHelpers';
 import {exerciseNotesStorage} from '../services/storage';
 import {ExerciseDiagram} from './ExerciseDiagram';
 
 interface ExerciseGuideProps {
   exercise: PrescribedExercise | null;
   onClose: () => void;
-  onNoteSaved?: () => void;
 }
 
 export const ExerciseGuide: React.FC<ExerciseGuideProps> = ({
   exercise,
   onClose,
-  onNoteSaved,
 }) => {
-  const [startingPosition, setStartingPosition] = useState('');
-  const [personalNotes, setPersonalNotes] = useState('');
-  const [savedFeedback, setSavedFeedback] = useState(false);
+  const [customVideoUrl, setCustomVideoUrl] = useState('');
+  const [mediaTab, setMediaTab] = useState<'animation' | 'video'>('animation');
 
   useEffect(() => {
     if (!exercise) return;
     const saved = exerciseNotesStorage.get(exercise.name);
-    setStartingPosition(saved.startingPosition);
-    setPersonalNotes(saved.personalNotes);
-    setSavedFeedback(false);
+    setCustomVideoUrl(saved.customVideoUrl ?? '');
+    setMediaTab('animation');
   }, [exercise]);
 
   useEffect(() => {
@@ -40,17 +37,25 @@ export const ExerciseGuide: React.FC<ExerciseGuideProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [exercise, onClose]);
 
+  const parsedVideo = useMemo(
+    () => parseCustomVideoUrl(customVideoUrl),
+    [customVideoUrl]
+  );
+
+  useEffect(() => {
+    if (!parsedVideo && mediaTab === 'video') {
+      setMediaTab('animation');
+    }
+  }, [parsedVideo, mediaTab]);
+
   if (!exercise) return null;
 
   const volumeText = formatExerciseVolume(exercise);
   const weight = formatPrescribedWeight(exercise);
 
-  const handleSaveNotes = (e: React.FormEvent) => {
-    e.preventDefault();
-    exerciseNotesStorage.save(exercise.name, startingPosition, personalNotes);
-    setSavedFeedback(true);
-    onNoteSaved?.();
-    window.setTimeout(() => setSavedFeedback(false), 1800);
+  const handleVideoUrlChange = (nextUrl: string) => {
+    setCustomVideoUrl(nextUrl);
+    exerciseNotesStorage.saveVideoUrl(exercise.name, nextUrl);
   };
 
   return (
@@ -90,8 +95,90 @@ export const ExerciseGuide: React.FC<ExerciseGuideProps> = ({
           </button>
         </div>
 
+        {parsedVideo && (
+          <div
+            role="tablist"
+            aria-label="Demonstration media mode"
+            className="mt-4 grid grid-cols-2 gap-1.5 rounded-[12px] border border-[var(--border)] bg-[var(--background)] p-1"
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mediaTab === 'animation'}
+              onClick={() => setMediaTab('animation')}
+              className={`flex min-h-[40px] items-center justify-center gap-2 rounded-[9px] text-[13px] font-medium transition-colors ${
+                mediaTab === 'animation'
+                  ? 'bg-[var(--primary)] text-[var(--on-primary)]'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              <PlayCircle className="h-4 w-4 shrink-0" />
+              <span>Animation</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mediaTab === 'video'}
+              onClick={() => setMediaTab('video')}
+              className={`flex min-h-[40px] items-center justify-center gap-2 rounded-[9px] text-[13px] font-medium transition-colors ${
+                mediaTab === 'video'
+                  ? 'bg-[var(--primary)] text-[var(--on-primary)]'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              <Film className="h-4 w-4 shrink-0" />
+              <span>Custom Video</span>
+            </button>
+          </div>
+        )}
+
         <div className="mt-4">
-          <ExerciseDiagram exerciseName={exercise.name} variant="guide" />
+          {mediaTab === 'video' && parsedVideo ? (
+            <div className="overflow-hidden rounded-[18px] border border-[var(--border)] bg-[var(--surface-elevated)]">
+              {parsedVideo.kind === 'youtube' && (
+                <div className="aspect-video w-full">
+                  <iframe
+                    src={parsedVideo.embedUrl}
+                    title={`${exercise.name} video demonstration`}
+                    className="h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              )}
+
+              {parsedVideo.kind === 'direct' && (
+                <video
+                  src={parsedVideo.srcUrl}
+                  controls
+                  loop
+                  muted
+                  playsInline
+                  autoPlay
+                  className="aspect-video w-full bg-black object-contain"
+                />
+              )}
+
+              {parsedVideo.kind === 'external' && (
+                <div className="flex flex-col items-center justify-center gap-3 p-6 text-center">
+                  <p className="text-[14px] text-[var(--text-secondary)]">
+                    This link cannot be embedded directly inside the player.
+                  </p>
+                  <a
+                    href={parsedVideo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-[12px] bg-[var(--primary)] px-4 py-2 text-[14px] font-semibold text-[var(--on-primary)] hover:bg-[var(--primary-hover)]"
+                  >
+                    <span>Open Video Link</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
+              )}
+            </div>
+          ) : (
+            <ExerciseDiagram exerciseName={exercise.name} variant="guide" />
+          )}
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-3 rounded-[14px] border border-[var(--border)] bg-[var(--background)] p-4">
@@ -113,71 +200,44 @@ export const ExerciseGuide: React.FC<ExerciseGuideProps> = ({
           </div>
         </div>
 
-        <form onSubmit={handleSaveNotes} className="mt-5 space-y-4">
+        <div className="mt-4 space-y-4">
           <div>
             <label
-              htmlFor="starting-position-input"
+              htmlFor="custom-video-url-input"
               className="block text-[13px] font-medium text-[var(--text-primary)]"
             >
-              Starting position cues
+              Custom video link (optional)
             </label>
-            <textarea
-              id="starting-position-input"
-              rows={2}
-              value={startingPosition}
-              onChange={(e) => {
-                setStartingPosition(e.target.value);
-                setSavedFeedback(false);
-              }}
-              placeholder="Add your trainer's setup cues (stance, grip, bench height)..."
-              className="mt-1.5 w-full resize-none rounded-[12px] border border-[var(--border)] bg-[var(--background)] px-3.5 py-2.5 text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/70 focus:border-[var(--primary)] focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="personal-notes-input"
-              className="block text-[13px] font-medium text-[var(--text-primary)]"
-            >
-              Personal form &amp; weight notes
-            </label>
-            <textarea
-              id="personal-notes-input"
-              rows={3}
-              value={personalNotes}
-              onChange={(e) => {
-                setPersonalNotes(e.target.value);
-                setSavedFeedback(false);
-              }}
-              placeholder="Record personal execution cues, common mistakes to avoid, or actual weight adjustments..."
-              className="mt-1.5 w-full resize-none rounded-[12px] border border-[var(--border)] bg-[var(--background)] px-3.5 py-2.5 text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/70 focus:border-[var(--primary)] focus:outline-none"
-            />
-          </div>
-
-          <div className="flex items-center gap-3 pt-1">
-            <button
-              type="submit"
-              className="inline-flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[var(--primary)] px-5 py-3 text-[15px] font-semibold text-[var(--on-primary)] transition-colors duration-150 hover:bg-[var(--primary-hover)]"
-            >
-              {savedFeedback ? (
-                <>
-                  <Check className="h-4 w-4" strokeWidth={2.5} />
-                  <span>Notes Saved</span>
-                </>
-              ) : (
-                <span>Save Form Notes</span>
+            <div className="mt-1.5 flex items-center gap-2">
+              <input
+                id="custom-video-url-input"
+                type="url"
+                value={customVideoUrl}
+                onChange={(e) => handleVideoUrlChange(e.target.value)}
+                placeholder="Paste a YouTube or direct .mp4 / .webm link..."
+                className="min-h-[44px] w-full rounded-[12px] border border-[var(--border)] bg-[var(--background)] px-3.5 py-2 text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/70 focus:border-[var(--primary)] focus:outline-none"
+              />
+              {customVideoUrl.trim().length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => handleVideoUrlChange('')}
+                  aria-label="Clear custom video link"
+                  className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-[12px] border border-[var(--border)] bg-[var(--background)] text-[var(--text-secondary)] transition-colors hover:border-[var(--primary)] hover:text-[var(--text-primary)]"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               )}
-            </button>
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="min-h-[48px] rounded-[14px] border border-[var(--border)] bg-[var(--surface-elevated)] px-5 py-3 text-[15px] font-medium text-[var(--text-primary)] transition-colors duration-150 hover:border-[var(--primary)]"
-            >
-              Close
-            </button>
+            </div>
           </div>
-        </form>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="min-h-[48px] w-full rounded-[14px] border border-[var(--border)] bg-[var(--surface-elevated)] px-5 py-3 text-[15px] font-medium text-[var(--text-primary)] transition-colors duration-150 hover:border-[var(--primary)]"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

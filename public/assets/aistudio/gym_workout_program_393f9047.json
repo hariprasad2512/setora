@@ -1,0 +1,1351 @@
+{
+  "schema_version": "1.0.0",
+  "program_id": "personal_gym_program",
+  "title": "Trainer-prescribed Gym Programme",
+  "source": {
+    "type": "whatsapp_message",
+    "provided_by": "gym_trainer",
+    "source_date": null,
+    "notes": [
+      "The source message did not specify calendar dates or explicit week numbers.",
+      "Workout blocks are ordered as they appeared in the message.",
+      "The initial Tuesday–Saturday block is retained as a partial week.",
+      "One subsequent Monday–Saturday block appeared twice identically and is retained twice."
+    ]
+  },
+  "normalization_rules": {
+    "sets_and_reps": "10x3 is represented as 3 sets of 10 reps.",
+    "timed_sets": "30secs x 4 is represented as 4 sets of 30 seconds.",
+    "unknown_weight": "Missing prescribed weights are null; they are not assumed to be bodyweight.",
+    "weight_notes": "Ranges and suggestions are preserved as notes rather than converted into a single exact weight.",
+    "calendar_dates": "No dates have been inferred.",
+    "exercise_names": "Names have only been lightly standardized; ambiguous names should be confirmed with the trainer."
+  },
+  "exercise_categories": [
+    "arms",
+    "lower_body",
+    "shoulders",
+    "core",
+    "chest",
+    "legs",
+    "upper_body",
+    "full_body_circuit",
+    "core_stability"
+  ],
+  "blocks": [
+    {
+      "id": "block_00_partial",
+      "label": "Initial partial week",
+      "sequence": 0,
+      "status": "partial_week",
+      "source_note": "The WhatsApp message begins with Tuesday and ends Saturday before the first Monday workout. Kept as a partial block in the order received.",
+      "days": [
+        {
+          "day": "Tuesday",
+          "category": "lower_body",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Jump Squats",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Deadlift",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Bulgarian Squats",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Hip Thrust",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Side Lunges",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Wednesday",
+          "category": "shoulders",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Overhead Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Upright Row",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 20
+            },
+            {
+              "name": "Face Pull",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Reverse Fly",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 5
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Thursday",
+          "category": "core",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Dumbbell Side Bend",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Jackknife",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Plank Twist",
+              "sets": 4,
+              "duration_seconds": 30
+            },
+            {
+              "name": "V Hold",
+              "sets": 4,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Friday",
+          "category": "chest",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Incline Push-ups",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Bench Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Machine Fly",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Squeeze Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Lat Pulldown",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Saturday",
+          "category": "legs",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Jumping Jacks",
+              "sets": 3,
+              "reps": 30
+            },
+            {
+              "name": "Goblet Squats",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Duck Walk",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Leg Extension",
+              "sets": 4,
+              "reps": 10,
+              "weight_note": "15–20 kg"
+            },
+            {
+              "name": "Leg Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            }
+          ],
+          "notes": [
+            "Cool-down stretches"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_01",
+      "label": "Workout block 1",
+      "sequence": 1,
+      "status": "complete_week",
+      "source_note": "First complete Monday–Saturday schedule after the initial partial week.",
+      "days": [
+        {
+          "day": "Monday",
+          "category": "arms",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Bicep Curls",
+              "sets": 4,
+              "reps": 10,
+              "weight_note": "Try 10 kg"
+            },
+            {
+              "name": "Hammer Curls",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Tricep Dips",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Tricep Overhead Extension",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Tuesday",
+          "category": "lower_body",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Step-ups on Box",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Deadlift",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 20
+            },
+            {
+              "name": "Sumo Squats",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Hip Thrust",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Bulgarian Squats",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Wednesday",
+          "category": "shoulders",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Shoulder Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Upright Row",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Shrugs",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10,
+              "per_side": true
+            },
+            {
+              "name": "Front Raise",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 5,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Thursday",
+          "category": "core",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Knee Crunches",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Pulse-ups",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Mountain Climbers",
+              "sets": 4,
+              "duration_seconds": 30
+            },
+            {
+              "name": "Flutter Kicks",
+              "sets": 4,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Friday",
+          "category": "chest",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Bench Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Machine Fly",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Plate Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Incline Push-ups",
+              "sets": 4,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Saturday",
+          "category": "legs",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "High Knees",
+              "sets": 3,
+              "reps": 30
+            },
+            {
+              "name": "Smith Machine Squats",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10,
+              "weight_note": "10 kg each side"
+            },
+            {
+              "name": "Leg Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 20
+            },
+            {
+              "name": "Side Lunges",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Leg Extension",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            }
+          ],
+          "notes": [
+            "Cool-down stretches"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_01_repeat",
+      "label": "Workout block 1 (repeated)",
+      "sequence": 2,
+      "status": "complete_week",
+      "duplicate_of": "block_01",
+      "source_note": "Identical repeated schedule in the WhatsApp message; retained to preserve source order.",
+      "days": [
+        {
+          "day": "Monday",
+          "category": "arms",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Bicep Curls",
+              "sets": 4,
+              "reps": 10,
+              "weight_note": "Try 10 kg"
+            },
+            {
+              "name": "Hammer Curls",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Tricep Dips",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Tricep Overhead Extension",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Tuesday",
+          "category": "lower_body",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Step-ups on Box",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Deadlift",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 20
+            },
+            {
+              "name": "Sumo Squats",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Hip Thrust",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Bulgarian Squats",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Wednesday",
+          "category": "shoulders",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Shoulder Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Upright Row",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Shrugs",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10,
+              "per_side": true
+            },
+            {
+              "name": "Front Raise",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 5,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Thursday",
+          "category": "core",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Knee Crunches",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Pulse-ups",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Mountain Climbers",
+              "sets": 4,
+              "duration_seconds": 30
+            },
+            {
+              "name": "Flutter Kicks",
+              "sets": 4,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Friday",
+          "category": "chest",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Bench Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Machine Fly",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Plate Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Incline Push-ups",
+              "sets": 4,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Saturday",
+          "category": "legs",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "High Knees",
+              "sets": 3,
+              "reps": 30
+            },
+            {
+              "name": "Smith Machine Squats",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10,
+              "weight_note": "10 kg each side"
+            },
+            {
+              "name": "Leg Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 20
+            },
+            {
+              "name": "Side Lunges",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Leg Extension",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            }
+          ],
+          "notes": [
+            "Cool-down stretches"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_02",
+      "label": "Workout block 2",
+      "sequence": 3,
+      "status": "complete_week",
+      "source_note": "Schedule with barbell curls, good mornings, Arnold press and related variations.",
+      "days": [
+        {
+          "day": "Monday",
+          "category": "arms",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Barbell Bicep Curls",
+              "sets": 3,
+              "reps": 10,
+              "weight_note": "Try 7 kg"
+            },
+            {
+              "name": "Cross-body Hammer Curls",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Seated Tricep Press",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 5
+            },
+            {
+              "name": "Cable Tricep Kickback",
+              "sets": 3,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Tuesday",
+          "category": "lower_body",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Good Mornings",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Romanian Deadlift",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7
+            },
+            {
+              "name": "Hip Thrust",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Bulgarian Squats",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 5,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Wednesday",
+          "category": "shoulders",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Shoulder Overhead Press",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Seated Arnold Press",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Banded Face Pull",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Arm Circles",
+              "sets": 3,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Thursday",
+          "category": "core",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Reverse Crunches",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Cable Crunches",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 5
+            },
+            {
+              "name": "Hollow Hold",
+              "sets": 3,
+              "duration_seconds": 30
+            },
+            {
+              "name": "Seated Scissor Kicks",
+              "sets": 4,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Friday",
+          "category": "chest",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Squeeze Bench Press",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 5
+            },
+            {
+              "name": "Single-arm Crossover",
+              "sets": 3,
+              "reps": 10,
+              "weight_note": "3–4 kg"
+            },
+            {
+              "name": "Plate Press",
+              "sets": 4,
+              "reps": 10,
+              "weight_note": "5–7.5 kg"
+            },
+            {
+              "name": "Push-ups",
+              "sets": 3,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Saturday",
+          "category": "legs",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Jumping Jacks",
+              "sets": 3,
+              "reps": 30
+            },
+            {
+              "name": "Goblet Squat",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Leg Press",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Lunges",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Landmine Squats",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            }
+          ],
+          "notes": [
+            "Cool-down stretches"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_03",
+      "label": "Workout block 3",
+      "sequence": 4,
+      "status": "complete_week",
+      "source_note": "Schedule with walking, cycling, fire hydrants and a Saturday circuit.",
+      "days": [
+        {
+          "day": "Monday",
+          "category": "arms",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Bicep Curls",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Hammer Curls",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Tricep Pull",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Tricep Dips",
+              "sets": 3,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Tuesday",
+          "category": "lower_body",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Fire Hydrant",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Good Mornings",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Clamshell",
+              "sets": 3,
+              "reps": 10,
+              "per_side": true
+            },
+            {
+              "name": "Bridge Pulses",
+              "sets": 3,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Wednesday",
+          "category": "shoulders",
+          "cardio": {
+            "activity": "cycling",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Shoulder Overhead Press",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Upright Row",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            },
+            {
+              "name": "Face Pull",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 12
+            },
+            {
+              "name": "Rear Delt Raise",
+              "sets": 4,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Thursday",
+          "category": "core",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Crunches",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Oblique Crunches",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Flutter Kicks",
+              "sets": 3,
+              "duration_seconds": 30
+            },
+            {
+              "name": "Leg Circles",
+              "sets": 3,
+              "reps": 10,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Friday",
+          "category": "chest",
+          "cardio": {
+            "activity": "cycling",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Bench Press",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 5
+            },
+            {
+              "name": "Pullover",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7
+            },
+            {
+              "name": "Plate Press",
+              "sets": 4,
+              "reps": 10,
+              "weight_note": "10–12 kg"
+            },
+            {
+              "name": "Incline Push-ups",
+              "sets": 3,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Saturday",
+          "category": "full_body_circuit",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Kettlebell Swing",
+              "sets": 3,
+              "reps": 30
+            },
+            {
+              "name": "Snatch",
+              "sets": 3,
+              "reps": 30
+            },
+            {
+              "name": "Burpees",
+              "sets": 3,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": [
+            "Circuit: no break between exercises",
+            "Cool-down stretches"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_04",
+      "label": "Workout block 4",
+      "sequence": 5,
+      "status": "complete_week",
+      "source_note": "Latest schedule in the supplied message.",
+      "days": [
+        {
+          "day": "Monday",
+          "category": "arms",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Bicep Curls with Rod",
+              "sets": 4,
+              "reps": 10,
+              "weight_note": "Add weight"
+            },
+            {
+              "name": "Cross Curls",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5
+            },
+            {
+              "name": "Tricep Extensions",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Tricep Overhead Extension",
+              "sets": 4,
+              "reps": 10,
+              "prescribed_weight_kg": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Tuesday",
+          "category": "lower_body",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Jump Squats on Box",
+              "sets": 3,
+              "reps": 10
+            },
+            {
+              "name": "Romanian Deadlift",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 20
+            },
+            {
+              "name": "Kettlebell Swings",
+              "sets": 3,
+              "duration_seconds": 30,
+              "prescribed_weight_kg": 20
+            },
+            {
+              "name": "Hip Thrust",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 15
+            },
+            {
+              "name": "Lunges",
+              "sets": 3,
+              "reps": 10,
+              "prescribed_weight_kg": 7.5,
+              "per_side": true
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Wednesday",
+          "category": "core_stability",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Reverse Plank",
+              "sets": 3,
+              "duration_seconds": 30
+            },
+            {
+              "name": "Water Bottle Rotations",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Bear Crawl",
+              "sets": 3,
+              "duration_seconds": 30
+            },
+            {
+              "name": "Shoulder Taps",
+              "sets": 4,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Thursday",
+          "category": "core",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 30
+          },
+          "exercises": [
+            {
+              "name": "Sit-ups",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Side Plank Pulses",
+              "sets": 4,
+              "reps": 10,
+              "per_side": true
+            },
+            {
+              "name": "Russian Twists",
+              "sets": 4,
+              "duration_seconds": 30
+            },
+            {
+              "name": "Scissors",
+              "sets": 4,
+              "duration_seconds": 30
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Friday",
+          "category": "upper_body",
+          "cardio": {
+            "activity": "running",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Push-ups",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Bird Dogs",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Superman Pulses",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Wall Arm Slides",
+              "sets": 4,
+              "reps": 10
+            }
+          ],
+          "notes": []
+        },
+        {
+          "day": "Saturday",
+          "category": "legs",
+          "cardio": {
+            "activity": "walking",
+            "duration_minutes": 15
+          },
+          "exercises": [
+            {
+              "name": "Speed Run on Spot",
+              "sets": 3,
+              "reps": 30
+            },
+            {
+              "name": "Squats",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Side Leg Raises",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Lunges",
+              "sets": 4,
+              "reps": 10
+            },
+            {
+              "name": "Calf Raises",
+              "sets": 4,
+              "reps": 10
+            }
+          ],
+          "notes": [
+            "Cool-down stretches"
+          ]
+        }
+      ]
+    }
+  ],
+  "tracking_model": {
+    "prescribed_workout_is_immutable": true,
+    "actual_performance_is_stored_separately": true,
+    "session_fields": [
+      "completed_at",
+      "exercise_id",
+      "set_number",
+      "actual_reps",
+      "actual_weight_kg",
+      "duration_seconds",
+      "completed",
+      "notes"
+    ]
+  },
+  "ai_instructions": [
+    "Use only the supplied programme and recorded workout history when answering questions about prescribed workouts.",
+    "Distinguish prescribed weights from actual weights completed by the user.",
+    "Do not invent missing weights, rest periods, dates, equipment, or exercise instructions.",
+    "If a movement name or prescription is ambiguous, ask the user or recommend confirming with the trainer.",
+    "Do not independently prescribe increases in weight or training volume; treat trainer-approved changes as authoritative.",
+    "When summarizing progress, compare like-for-like exercises and clearly state when the available data is incomplete."
+  ]
+}

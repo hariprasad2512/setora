@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Setora — Your training. Your rhythm.</title>
+    <meta name="description" content="A calm, minimal personal gym workout checklist. Open, view exercises, tick completed, done." />
+    <meta property="og:title" content="Setora — Your training. Your rhythm." />
+    <meta property="og:description" content="A calm, minimal personal gym workout checklist. Open, view exercises, tick completed, done." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#111413" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Setora" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem('setora_preferences');
+          var theme = 'dark';
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (parsed && (parsed.theme === 'dark' || parsed.theme === 'light' || parsed.theme === 'system')) {
+              theme = parsed.theme;
+            }
+          }
+          var resolved = theme === 'system'
+            ? (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+            : theme;
+          var root = document.documentElement;
+          if (resolved === 'dark') {
+            root.classList.add('dark');
+            root.setAttribute('data-theme', 'dark');
+          } else {
+            root.classList.remove('dark');
+            root.setAttribute('data-theme', 'light');
+          }
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) {
+            meta.setAttribute('content', resolved === 'dark' ? '#111413' : '#F5F7F6');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
